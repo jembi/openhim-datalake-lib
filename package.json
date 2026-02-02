@@ -1,0 +1,55 @@
+{
+  "name": "@jembi/openhim-datalake-lib",
+  "version": "1.0.0",
+  "description": "Reusable datalake (MinIO/S3) upload and bucket management for OpenHIM mediators",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./datalake": "./dist/datalake/index.js",
+    "./openhim": "./dist/openhim/index.js",
+    "./events": "./dist/events/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "mocha -r ts-node/register 'tests/**/*.test.ts'",
+    "lint": "eslint . --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "openhim",
+    "mediator",
+    "minio",
+    "s3",
+    "datalake",
+    "upload"
+  ],
+  "author": "Jembi Health Systems NPC",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jembi/openhim-datalake-lib.git"
+  },
+  "peerDependencies": {
+    "minio": "^8.0.0",
+    "openhim-mediator-utils": "^0.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/mocha": "^10.0.9",
+    "@types/chai": "^4.3.11",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
+    "chai": "^4.4.1",
+    "eslint": "^9.14.0",
+    "minio": "^8.0.2",
+    "mocha": "^10.3.0",
+    "openhim-mediator-utils": "^0.2.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
