@@ -62,16 +62,22 @@ export class BucketManager {
       }
 
       const stats = await this.client.statObject(bucket, fileName);
-      const exists = expectedMimeType
+      const mimeTypeMatches = expectedMimeType
         ? stats.metaData?.["content-type"] === expectedMimeType
         : true;
 
+      if (!mimeTypeMatches) {
+        return {
+          exists: false,
+          success: true,
+          message: `File ${fileName} exists in bucket ${bucket} but has different MIME type (expected: ${expectedMimeType}, actual: ${stats.metaData?.["content-type"]})`,
+        };
+      }
+
       return {
-        exists,
+        exists: true,
         success: true,
-        message: exists
-          ? `File ${fileName} exists in bucket ${bucket}`
-          : `File ${fileName} does not exist in bucket ${bucket}`,
+        message: `File ${fileName} exists in bucket ${bucket}`,
       };
     } catch (err) {
       const error = err as Error & { code?: string };

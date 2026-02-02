@@ -168,7 +168,10 @@ export class UploadService {
     } catch (error) {
       const errorMessage = `Error uploading file: ${error instanceof Error ? error.message : String(error)}`;
       this.logger.error(errorMessage);
-      throw new Error(`Failed to upload file ${filePath}`);
+      return {
+        success: false,
+        message: errorMessage,
+      };
     }
   }
 }

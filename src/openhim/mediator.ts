@@ -152,6 +152,7 @@ export class OpenHIMService {
       mediatorConfig.config = {
         minio_buckets_registry: [newBucket],
       };
+      await this.putMediatorConfig([newBucket]);
     } else {
       const existingBucket = existingConfig.minio_buckets_registry?.find(
         (b) => b.bucket === bucket,
