@@ -72,6 +72,34 @@ export interface FileExistsResult {
 }
 
 /**
+ * Options for file download operations
+ */
+export interface DownloadOptions {
+  /** Optional version ID to download a specific version */
+  versionId?: string;
+}
+
+/**
+ * Result of a download operation
+ */
+export interface DownloadResult {
+  success: boolean;
+  message: string;
+  /** Buffer containing the file data (only for downloadToBuffer) */
+  buffer?: Buffer;
+  /** Destination path where file was saved (only for downloadToPath) */
+  destPath?: string;
+  /** File metadata */
+  metadata?: Record<string, string>;
+  /** File size in bytes */
+  size?: number;
+  /** Last modified date */
+  lastModified?: Date;
+  /** ETag of the object */
+  etag?: string;
+}
+
+/**
  * Event emitted when a file is uploaded
  */
 export interface UploadEvent {

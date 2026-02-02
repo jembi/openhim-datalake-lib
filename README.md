@@ -5,6 +5,7 @@ Reusable datalake (MinIO/S3) upload and bucket management library for OpenHIM me
 ## Features
 
 - **Upload Service**: Upload files from buffers or paths with automatic metadata handling
+- **Download Service**: Download files to buffers or paths, with presigned URL support
 - **Bucket Management**: Create, validate, and manage buckets
 - **Listener Manager**: Plugin-based file processing with bucket notifications
 - **OpenHIM Integration**: Automatic mediator registration and bucket config sync
@@ -44,6 +45,18 @@ const result = await lib.upload.uploadBuffer(
   "application/json",
   { bucket: "my-bucket", createBucketIfNotExists: true },
 );
+
+// Download a file to buffer
+const download = await lib.download.downloadToBuffer("my-bucket", "data.json");
+if (download.success) {
+  console.log("Downloaded:", download.buffer?.toString());
+}
+
+// Download a file to disk
+await lib.download.downloadToPath("my-bucket", "data.json", "/tmp/data.json");
+
+// Get a presigned URL (valid for 1 hour)
+const url = await lib.download.getPresignedUrl("my-bucket", "data.json", 3600);
 ```
 
 ## File Processing Plugins
@@ -81,19 +94,26 @@ mediatorEvents.onUpload((event) => {
 
 Creates a configured library instance. Returns:
 
-| Property    | Type                   | Description             |
-| ----------- | ---------------------- | ----------------------- |
-| `client`    | `Minio.Client`         | Underlying MinIO client |
-| `upload`    | `UploadService`        | File upload operations  |
-| `buckets`   | `BucketManager`        | Bucket management       |
-| `listeners` | `ListenerManager`      | Notification listeners  |
-| `openhim`   | `OpenHIMService?`      | OpenHIM integration     |
-| `events`    | `MediatorEventEmitter` | Event emitter           |
+| Property    | Type                   | Description              |
+| ----------- | ---------------------- | ------------------------ |
+| `client`    | `Minio.Client`         | Underlying MinIO client  |
+| `upload`    | `UploadService`        | File upload operations   |
+| `download`  | `DownloadService`      | File download operations |
+| `buckets`   | `BucketManager`        | Bucket management        |
+| `listeners` | `ListenerManager`      | Notification listeners   |
+| `openhim`   | `OpenHIMService?`      | OpenHIM integration      |
+| `events`    | `MediatorEventEmitter` | Event emitter            |
 
 ### `UploadService`
 
 - `uploadBuffer(buffer, fileName, mimeType, options)` - Upload from buffer
 - `uploadFromPath(path, fileName, mimeType, options)` - Upload from file path
+
+### `DownloadService`
+
+- `downloadToBuffer(bucket, fileName)` - Download file as Buffer
+- `downloadToPath(bucket, fileName, destPath)` - Download file to local path
+- `getPresignedUrl(bucket, fileName, expirySeconds?)` - Get presigned download URL
 
 ### `BucketManager`
 

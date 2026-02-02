@@ -2,6 +2,7 @@ import { DatalakeLibConfig, Logger } from "./types";
 import { createDatalakeClient, defaultLogger } from "./datalake/client";
 import { BucketManager } from "./datalake/bucket";
 import { UploadService } from "./datalake/upload";
+import { DownloadService } from "./datalake/download";
 import { ListenerManager } from "./datalake/listeners";
 import { OpenHIMService } from "./openhim/mediator";
 import { mediatorEvents } from "./events/emitter";
@@ -67,6 +68,7 @@ export function createDatalakeLib(config: DatalakeLibConfig) {
     openhimService,
     logger,
   );
+  const downloadService = new DownloadService(client, bucketManager, logger);
   const listenerManager = new ListenerManager(client, bucketManager, logger);
 
   return {
@@ -74,6 +76,8 @@ export function createDatalakeLib(config: DatalakeLibConfig) {
     client,
     /** Service for uploading files to the datalake */
     upload: uploadService,
+    /** Service for downloading files from the datalake */
+    download: downloadService,
     /** Manager for bucket operations */
     buckets: bucketManager,
     /** Manager for bucket notification listeners */
