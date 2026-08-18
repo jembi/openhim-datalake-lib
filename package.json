@@ -1,6 +1,6 @@
 {
   "name": "@jembi/openhim-datalake-lib",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Reusable datalake (MinIO/S3) upload and bucket management for OpenHIM mediators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
