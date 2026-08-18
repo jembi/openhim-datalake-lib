@@ -14,7 +14,7 @@ Reusable datalake (MinIO/S3) upload and bucket management library for OpenHIM me
 ## Installation
 
 ```bash
-npm install @jembi/openhim-datalake-lib minio openhim-mediator-utils
+npm install @jembi/openhim-datalake-lib minio "openhim-mediator-utils@^0.4.0"
 ```
 
 ## Quick Start
